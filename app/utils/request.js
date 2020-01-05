@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const instance = axios.create({
-  baseURL: 'https://api-dev.leadbook.com/api/v1/prospects/',
+  baseURL: 'https://api-dev.leadbook.com/api/v1/',
   headers: {
     'Content-Type': 'application/json',
     'X-CSRFToken': cookies.get('csrftoken'),

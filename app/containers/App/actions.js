@@ -200,9 +200,10 @@ export function subscribePlanSuccess(payload) {
   };
 }
 
-export function getSubscription() {
+export function getSubscription(email) {
   return {
     type: GET_SUBSCRIPTION,
+    email
   };
 }
 
@@ -227,9 +228,10 @@ export function topUpSuccess(payload) {
   };
 }
 
-export function getPayments() {
+export function getPayments(email) {
   return {
     type: GET_PAYMENTS,
+    email
   };
 }
 

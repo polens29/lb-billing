@@ -1,12 +1,13 @@
 import React from 'react';
 import { BillingWrapper } from './css'
-import { Menu, Dropdown, Select, Table, Pagination, Modal, Button } from 'antd';
+import { Menu, Dropdown, Select, Table, Pagination, Modal, Button, Spin } from 'antd';
 import { DatePicker, DatePickerInput } from 'rc-datepicker';
 import 'rc-datepicker/lib/style.css';
 import moment from 'moment';
 import { dataSource } from './mockData';
 import ActionsOnTable from './ActionsOnTable'
 import Calendar from 'assets/calendar.png';
+import _ from 'underscore';
 
 const { Option } = Select;
 
@@ -63,8 +64,15 @@ class Billing extends React.PureComponent {
 			clicked: null,
 			visible: false,
 			selectedRowKeys: [],
-			showModal: false
+			showModal: false,
+			dataSource: this.props.payments
 		}
+	}
+
+	componentWillMount(){
+		/*this.setState({
+			dataSource: dataSource
+		})*/
 	}
 
 	onChange = (date) => {
@@ -128,7 +136,9 @@ class Billing extends React.PureComponent {
 	}
 	
 	render(){
-		let { visible, clicked, selectedRowKeys } = this.state;
+		console.log(this.props.subscription.plan)
+		let { visible, clicked, selectedRowKeys, dataSource } = this.state;
+		let { plan } = this.props.subscription;
 
 		const menu = (
 		  <Menu>
@@ -157,6 +167,14 @@ class Billing extends React.PureComponent {
 	      }
 	    ],
     };
+
+    if(_.isEmpty(this.props.subscription)){
+    	return (
+    		<BillingWrapper>
+    			<Spin />
+    		</BillingWrapper>
+    	)
+    }
 
 		return (
 			<BillingWrapper>
@@ -190,7 +208,7 @@ class Billing extends React.PureComponent {
 					<div className='inner'>
 						<div className='indiv'>
 							<label>Users</label>
-							<label>1 / 1 </label>
+							<label>1 / {plan.total_users_covered} </label>
 							<button>Add Users</button>
 
 						</div>
@@ -205,15 +223,20 @@ class Billing extends React.PureComponent {
 						<div className='indiv'>
 							<label>Current plan</label>
 							<div className='plan'>
-								<label>Starter</label>
-								<label>Billed Monthly</label>
+								<label>{plan.name.charAt(0).toUpperCase() + plan.name.substring(1)}</label>
+								{
+									plan.interval == 'month' ?
+									<label>Billed Monthly</label>
+									:
+									<label>Billed Annually</label>
+								}
 							</div>
 							<button>Manage Plan</button>
 						</div>
 
 						<div className='indiv'>
 							<label>Contact volume</label>
-							<label>2,000</label>
+							<label>{plan.volume}</label>
 							<button onClick={this.toggleModal}>Increase Contact Volume</button>
 						</div>
 					</div>

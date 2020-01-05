@@ -54,6 +54,8 @@ import {
 import {
   makeSelectCredits,
   makeSelectDisplayColumns,
+  makeSelectPayments,
+  makeSelectSubscription
 } from 'containers/App/selectors';
 import { setColumnDisplay, toggleSidebarDisplay } from 'containers/App/actions';
 
@@ -167,7 +169,10 @@ export class HomePage extends React.PureComponent {
 
     return (
       <div>
-        <Billing />
+        <Billing
+          payments={this.props.payments}
+          subscription={this.props.subscription}
+        />
       </div>
     );
   }
@@ -190,6 +195,8 @@ HomePage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  payments: makeSelectPayments(),
+  subscription: makeSelectSubscription(),
   credentials: makeSelectCredentials(),
   list: makeSelectList(),
   keywords: makeSelectKeywords(),

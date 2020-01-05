@@ -370,10 +370,13 @@ export function* watchSubscribePlan() {
   yield cancel(watcher);
 }
 
-export function* getSubscription() {
+export function* getSubscription({ email }) {
+  let payload = {
+    'email': email
+  }
   try {
-    //const { data } = yield call(getRequest, '/pricing/subscription/');
-    //yield put(getSubscriptionSuccess(data));
+    const { data } = yield call(postRequest, '/pricing/subscription/', payload);
+    yield put(getSubscriptionSuccess(data));
   } catch (err) {
     notification.error({
       message: 'Subscription Error',
@@ -503,11 +506,14 @@ export function* watchStripeConfig() {
 }
 
 // Watcher for payments related sagas
-export function* getPayments() {
+export function* getPayments({ email }) {
+  let payload = {
+    'email': email
+  }
   try {
-    //const { data } = yield call(getRequest, '/pricing/payments/');
-    //const { payments } = data;
-    //yield put(getPaymentsSuccess(payments));
+    const { data } = yield call(postRequest, '/pricing/payments/', payload);
+    const { payments } = data;
+    yield put(getPaymentsSuccess(payments));
   } catch (err) {
     notification.error({
       message: 'Couldn\'t fetch payments',

@@ -121,10 +121,11 @@ export class App extends React.PureComponent {
     this.props.fetchNotfications();
     this.props.getTopUpPricingList();
     this.props.getPlans();
-    this.props.getSubscription();
-    this.props.getPayments();
+    //this.props.getSubscription();
+    this.props.getSubscription('pauline@leadbook.com');
+    //this.props.getPayments();
+    this.props.getPayments('pauline@leadbook.com');
     this.props.getStripeConfig();
-    this.props.getUserProfile('hisyam@leadbook.com');
 
     // polling to request every minute
     this.interval = setInterval(this.props.fetchNotfications, 60000);
@@ -238,9 +239,9 @@ export function mapDispatchToProps(dispatch) {
     getPlans: () => dispatch(getPlans()),
     subscribeRequest: (payload) => dispatch(subscribeRequest(payload)),
     subscribePlan: (payload) => dispatch(subscribePlan(payload)),
-    getSubscription: () => dispatch(getSubscription()),
+    getSubscription: (email) => dispatch(getSubscription(email)),
     topUp: (payload) => dispatch(topUp(payload)),
-    getPayments: () => dispatch(getPayments()),
+    getPayments: (email) => dispatch(getPayments(email)),
     cancelSubscription: (payload) => dispatch(cancelSubscription(payload)),
     getTopUpCheckoutSession: (payload) => dispatch(getTopUpCheckoutSession(payload)),
     getStripeConfig: () => dispatch(getStripeConfig()),
